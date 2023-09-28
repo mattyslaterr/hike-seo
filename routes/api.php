@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\BookingFormController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Booking form endpoints
+Route::prefix('booking')->group(function() {
+
+    // Submit customer booking from endpoint
+    Route::post('submit', [BookingFormController::class, 'submit']);
 });

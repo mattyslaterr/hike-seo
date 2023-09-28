@@ -38,22 +38,29 @@
             </div>
         </div>
 
+        <!-- Booking time slot -->
         <div class="row mb-2 justify-content-center">
             <div class="col">
                 <label for="basic-url" class="form-label">Booking time</label>
                 <div class="input-group mb-3">
-                    <VueDatePicker v-model="booking.booking_time"></VueDatePicker>
+                    <VueDatePicker
+                        v-model="booking.time"
+                        minutes-increment="30"
+                        :disabled-week-days="[6, 7]"
+                        :min-time="{hours: 9, minutes: 0}"
+                        :max-time="{hours: 17, minutes: 30}"
+                        :start-time="{hours: 9, minutes: 0}"
+                        :min-date="new Date()"
+                    ></VueDatePicker>
                 </div>
             </div>
 
+            <!-- Submit form -->
             <div class="col form-inline">
                 <button type="submit" class="btn btn-primary w-100" @click="submit()">Submit</button>
             </div>
-
         </div>
-
     </div>
-
 </template>
 
 <script>
@@ -69,18 +76,42 @@ export default {
                 phone_number: '',
                 make: '',
                 model: '',
-                booking_time: null,
+                time: null,
             }
         };
     },
     methods: {
         submit() {
+            // Submit to API to confirm booking
             return axios.post('/api/booking/submit', this.booking)
-                .then((res) => {
+                .then((response) => {
 
+                    // Reset booking object to empty
+                    Object.assign(this.$data, this.$options.data())
+
+                    // Alert user booking successful
+                    this.$swal.fire({
+                        icon: 'success',
+                        text: response.data,
+                        showCloseButton: true,
+                        confirmButtonText: 'Close',
+                    })
                 })
                 .catch((error) => {
 
+                    // Loop errors and add to bullet points
+                    let errors = '';
+                    for(let i = 0; i < error.response.data.length; i++) {
+                        errors += '<li>'+error.response.data[i]+'</li>';
+                    }
+
+                    // Alert user of errors
+                    this.$swal.fire({
+                        icon: 'error',
+                        html: errors,
+                        showCloseButton: true,
+                        confirmButtonText: 'Close',
+                    })
                 });
         }
     }
