@@ -28,4 +28,28 @@ class Booking extends Model
     {
         return $query->where('time', $date)->exists();
     }
+
+    /**
+     * Find booking by user email
+     *
+     * @param Builder $query
+     * @param string $email
+     * @return Builder
+     */
+    public function scopeWhereUserEmail(Builder $query, string $email)
+    {
+        return $query->whereHas('user', function($q) use($email) {
+            return $q->where('email', $email);
+        });
+    }
+
+    /**
+     * User relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }

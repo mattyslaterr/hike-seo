@@ -20,4 +20,7 @@ Route::prefix('booking')->group(function() {
 
     // Submit customer booking from endpoint
     Route::post('submit', [BookingFormController::class, 'submit']);
+
+    // Get customer bookings from email endpoint
+    Route::get('my-bookings', [BookingFormController::class, 'get']);
 });

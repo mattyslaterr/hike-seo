@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Homepage / booking form
 Route::get('/', function () {
     return view('home');
+});
+
+// Display users bookings
+Route::get('/my-bookings', function () {
+    return view('my-bookings');
 });

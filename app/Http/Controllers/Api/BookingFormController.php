@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingFormRequest;
+use App\Http\Requests\MyBookingsRequest;
+use App\Http\Resources\BookingResource;
 use App\Models\Booking;
 use App\Models\User;
 use Carbon\Carbon;
@@ -28,6 +30,17 @@ class BookingFormController extends Controller
 
         // Return friendly message to user
         return response()->json('Booking confirmed for '.$booking->time);
+    }
+
+    /**
+     * Get users bookings via email API
+     *
+     * @param MyBookingsRequest $bookingsRequest
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function get(MyBookingsRequest $bookingsRequest)
+    {
+        return BookingResource::collection(Booking::whereUserEmail($bookingsRequest->input('email'))->orderBy('time', 'DESC')->get());
     }
 
     /**
