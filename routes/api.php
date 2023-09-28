@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\BookingFormController;
+use App\Http\Controllers\Api\BookingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +19,11 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('booking')->group(function() {
 
     // Submit customer booking from endpoint
-    Route::post('submit', [BookingFormController::class, 'submit']);
+    Route::post('submit', [BookingController::class, 'submit']);
 
     // Get customer bookings from email endpoint
-    Route::get('my-bookings', [BookingFormController::class, 'get']);
+    Route::get('my-bookings', [BookingController::class, 'get']);
+
+    // Get blocked timeslots for bookings
+    Route::get('blocked', [BookingController::class, 'blocked']);
 });

@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingFormRequest;
 use App\Http\Requests\MyBookingsRequest;
 use App\Http\Resources\BookingResource;
+use App\Models\BlockedBooking;
 use App\Models\Booking;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class BookingFormController extends Controller
+class BookingController extends Controller
 {
     /**
      * Submit booking form API
@@ -41,6 +42,21 @@ class BookingFormController extends Controller
     public function get(MyBookingsRequest $bookingsRequest)
     {
         return BookingResource::collection(Booking::whereUserEmail($bookingsRequest->input('email'))->orderBy('time', 'DESC')->get());
+    }
+
+    /**
+     * Return a list of blocked date and time slots
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function blocked()
+    {
+        // Grab both bookings and blocked bookings dates and slots
+        $bookings = Booking::select('date', 'slot')->get();
+        $blockedSlots = BlockedBooking::select('date', 'slot')->get();
+
+        // Merge both together and return to API
+        return response()->json(collect([$bookings, $blockedSlots])->flatten()->toArray());
     }
 
     /**

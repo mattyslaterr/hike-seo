@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('blocked_bookings', function (Blueprint $table) {
-            $table->date('date')->nullable();
-            $table->time('slot')->nullable();
+            $table->date('date');
+            $table->string('slot', 5);
             $table->timestamps();
         });
     }

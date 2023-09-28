@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->dateTime('time');
+            $table->date('date')->nullable();
+            $table->string('slot', 5)->nullable();
             $table->string('make');
             $table->string('model');
             $table->timestamps();

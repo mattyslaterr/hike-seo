@@ -15,9 +15,4 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 app.use(VueSweetalert2);
 
-// Date picker for customer frontend
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
-app.component('VueDatePicker', VueDatePicker);
-
 app.mount("#app");
