@@ -45,14 +45,14 @@
                 <div class="input-group mb-3">
 
                     <!-- Date -->
-                    <select class="form-control" v-model="date">
-                        <option v-if="date === null" :value="null">Select a date</option>
+                    <select class="form-control" v-model="booking.date">
+                        <option v-if="booking.date === null" :value="null">Select a date</option>
                         <option v-for="date in dates" :value="date">{{ date }}</option>
                     </select>
 
                     <!-- Time -->
-                    <select class="form-control" v-model="time" :disabled="!date">
-                        <option v-if="time === null" :value="null">Select a time</option>
+                    <select class="form-control" v-model="booking.slot" :disabled="!booking.date">
+                        <option v-if="booking.slot === null" :value="null">Select a time</option>
                         <option v-for="time in times">{{ time }}</option>
                     </select>
                 </div>
@@ -79,10 +79,9 @@ export default {
                 phone_number: '',
                 make: '',
                 model: '',
-                time: null,
+                date: null,
+                slot: null,
             },
-            date: null,
-            time: null,
             blocked: [],
         };
     },
@@ -178,14 +177,14 @@ export default {
                 for(let i = 0; i < this.blocked.length; i++) {
                     // Cast both dates to date string to compare
                     let blocked_date = new Date(this.blocked[i].date).toDateString();
-                    let selected_date = new Date(this.date).toDateString();
+                    let selected_date = new Date(this.booking.slot).toDateString();
 
                     // Check if selected date is in blocked dates list
                     if(selected_date === blocked_date) {
 
                         // Check if selected time is in blocked slots list
                         if(formatted_time === this.blocked[i].slot) {
-                            skip_time = true;
+                            // skip_time = true;
                         }
                     }
                 }

@@ -31,7 +31,7 @@
                 <tbody>
                 <tr v-for="(booking, index) in bookings">
                     <th scope="row">{{ index + 1}}</th>
-                    <td>{{ booking.time }}</td>
+                    <td>{{ booking.date + ' ' + booking.slot }}</td>
                     <td>{{ booking.make }}</td>
                     <td>{{ booking.model }}</td>
                 </tr>

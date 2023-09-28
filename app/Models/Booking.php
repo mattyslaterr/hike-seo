@@ -25,9 +25,9 @@ class Booking extends Model
      * @param string $date
      * @return mixed
      */
-    public function scopeHasBooking(Builder $query, string $date)
+    public function scopeHasBooking(Builder $query, string $date, string $slot)
     {
-        return $query->where('time', $date)->exists();
+        return $query->where('date', $date)->where('slot', $slot)->exists();
     }
 
     /**

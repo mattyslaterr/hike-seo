@@ -34,7 +34,8 @@ class BookingFormRequest extends FormRequest
             'phone_number' => ['required'],
             'make' => ['required', 'string'],
             'model' => ['required', 'string'],
-            'time' => ['required', 'date', new HasBooking()],
+            'date' => ['required', 'date'],
+            'slot' => ['required', new HasBooking($this->input('date'))],
         ];
     }
 
@@ -53,8 +54,9 @@ class BookingFormRequest extends FormRequest
             'make.string' => 'Make must be a string',
             'model.required' => 'Model is required',
             'model.string' => 'Model must be a string',
-            'time.required' => 'Booking time is required',
-            'time.string' => 'Booking time must be a date',
+            'date.required' => 'Booking date is required',
+            'date.string' => 'Booking date must be a date',
+            'slot.required' => 'Booking slot is required',
         ];
     }
 

@@ -3,18 +3,21 @@
 namespace App\Rules;
 
 use App\Models\Booking;
+use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 
 class HasBooking implements Rule
 {
+    protected $date;
+
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($date)
     {
-        //
+        $this->date = $date;
     }
 
     /**
@@ -26,7 +29,12 @@ class HasBooking implements Rule
      */
     public function passes($attribute, $value)
     {
-        if(!Booking::hasBooking($value)) {
+        // Format date to match stored dates
+        $date = new Carbon($this->date);
+        $date = $date->format('Y-m-d');
+
+        // Check if booking for this date and time already exists
+        if(!Booking::hasBooking($date, $value)) {
             return true;
         }
 

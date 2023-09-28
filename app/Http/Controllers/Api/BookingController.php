@@ -30,7 +30,7 @@ class BookingController extends Controller
         $booking = $this->storeBooking($request, $user);
 
         // Return friendly message to user
-        return response()->json('Booking confirmed for '.$booking->time);
+        return response()->json('Booking confirmed for ' . $booking->date . ' at ' . $booking->slot);
     }
 
     /**
@@ -41,7 +41,7 @@ class BookingController extends Controller
      */
     public function get(MyBookingsRequest $bookingsRequest)
     {
-        return BookingResource::collection(Booking::whereUserEmail($bookingsRequest->input('email'))->orderBy('time', 'DESC')->get());
+        return BookingResource::collection(Booking::whereUserEmail($bookingsRequest->input('email'))->orderBy('date', 'DESC')->get());
     }
 
     /**
@@ -84,9 +84,14 @@ class BookingController extends Controller
      */
     protected function storeBooking(Request $request, User $user): Booking
     {
+        // Format date
+        $date = new Carbon($request->input('date'));
+        $date = $date->format('Y-m-d');
+
         return Booking::firstOrCreate(array_merge($request->only(['make', 'model']), [
             'user_id' => $user->id,
-            'time' => new Carbon($request->input('time')),
+            'date' => $date,
+            'slot' => $request->input('slot'),
         ]));
     }
 }
