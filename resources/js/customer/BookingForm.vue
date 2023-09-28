@@ -41,7 +41,7 @@
         <!-- Booking time slot -->
         <div class="row mb-2 justify-content-center">
             <div class="col">
-                <label for="basic-url" class="form-label">Booking time</label>
+                <label for="booking-time" class="form-label">Booking time</label>
                 <div class="input-group mb-3">
 
                     <!-- Date -->
