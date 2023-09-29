@@ -47,7 +47,7 @@
                         </ul>
                         <!-- Action -->
                         <div class="d-flex align-items-lg-center mt-3 mt-lg-0">
-                            <a href="/dashboard" class="btn btn-sm btn-neutral w-full w-lg-auto">
+                            <a href="/admin/dashboard" class="btn btn-sm btn-neutral w-full w-lg-auto">
                                 Staff Login
                             </a>
                         </div>

@@ -24,13 +24,20 @@ Route::get('/my-bookings', function () {
     return view('my-bookings');
 });
 
-// Admin panel dashboard / manage bookings
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 // Admin panel / profile
-Route::middleware('auth')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
+
+    // View bookings
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    // Blocked bookings
+    Route::get('/blocked-bookings', function () {
+        return view('blocked-bookings');
+    })->name('blocked-bookings');
+
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

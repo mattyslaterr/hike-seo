@@ -10,6 +10,14 @@ app.component('booking-form', BookingForm);
 import MyBookings from './customer/MyBookings.vue';
 app.component('my-bookings', MyBookings);
 
+// Manage bookings component
+import ViewBookings from './admin/ViewBookings.vue';
+app.component('view-bookings', ViewBookings);
+
+// Blocked bookings component
+import BlockedBookings from './admin/BlockedBookings.vue';
+app.component('blocked-bookings', BlockedBookings);
+
 // SweetAlert2 for popup notifications
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';

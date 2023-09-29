@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -52,5 +52,28 @@ class User extends Authenticatable
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    /**
+     * User role relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function role()
+    {
+        return $this->hasOne(UserRole::class);
+    }
+
+    /**
+     * Find users by admin role
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeWhereAdmin(Builder $query)
+    {
+        return $query->whereHas('role', function($q) {
+            return $q->where('admin', true);
+        });
     }
 }

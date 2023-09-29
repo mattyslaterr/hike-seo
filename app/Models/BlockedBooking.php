@@ -13,4 +13,8 @@ class BlockedBooking extends Model
         'date',
         'slot'
     ];
+
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d h:i:s',
+    ];
 }

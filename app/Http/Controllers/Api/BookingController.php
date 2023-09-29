@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingFormRequest;
 use App\Http\Requests\MyBookingsRequest;
 use App\Http\Resources\BookingResource;
+use App\Http\Resources\ManageBookingResource;
+use App\Mail\AdminBookingMail;
+use App\Mail\CustomerBookingMail;
 use App\Models\BlockedBooking;
 use App\Models\Booking;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -29,6 +33,14 @@ class BookingController extends Controller
         // Add booking and tie to user
         $booking = $this->storeBooking($request, $user);
 
+        // Send emails to customer
+        Mail::to($user->email)->send(new CustomerBookingMail($booking));
+
+        // Send email to admin users
+        User::whereAdmin()->get()->each(function($admin) use($user, $booking){
+            Mail::to($admin->email)->send(new AdminBookingMail($user, $booking));
+        });
+
         // Return friendly message to user
         return response()->json('Booking confirmed for ' . $booking->date . ' at ' . $booking->slot);
     }
@@ -42,6 +54,16 @@ class BookingController extends Controller
     public function get(MyBookingsRequest $bookingsRequest)
     {
         return BookingResource::collection(Booking::whereUserEmail($bookingsRequest->input('email'))->orderBy('date', 'DESC')->get());
+    }
+
+    /**
+     * Get all bookings API
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function show()
+    {
+        return ManageBookingResource::collection(Booking::with('user')->get());
     }
 
     /**
