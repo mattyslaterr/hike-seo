@@ -36,6 +36,7 @@ Given the time constraints, some stuff is definitely lacking that I would have l
 - Templates (email & layout)
 - Authentication/middleware for admin APIs
 - Put emails into a job queue
+- Unit testing
 
 ## Credits
 
