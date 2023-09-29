@@ -25,7 +25,7 @@ This application uses Laravel 9 and VueJS, installed via sail for MYSQL database
 
 Please refer to the .env.example as the environment file for setup. You can create your own admin account via /register to access the staff portal to login and view bookings, and add in blocked booking slots. 
 
-The environment is hooked into a MailTrap inbox I have setup. If any additional accounts need to be added to the inbox to login to view, please let me know.
+The environment is hooked into a MailTrap inbox I have setup. Due to being on the free plan, I would recommend setting up another free inbox and update the SMTP credentials to see the mails sent as I am unable to add users to my inbox.
 
 ## Notes
 Given the time constraints, some stuff is definitely lacking that I would have loved to fixed or improve on.
